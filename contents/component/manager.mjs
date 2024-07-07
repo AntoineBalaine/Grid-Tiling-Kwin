@@ -66,11 +66,12 @@ function unTile(window) {
 }
 
 function addSignals(window) {
-  connect(window, 'frameGeometryChanged', () => {
-    // not user action
-    if (!window.move && !window.resize && window.frameGeometry !== window.renderGeometry)
-      window.frameGeometry = window.renderGeometry;
-  });
+  if (config.force) {
+    connect(window, 'frameGeometryChanged', () => {
+      if (!window.move && !window.resize && !window.fullScreen && window.frameGeometry !== window.renderGeometry)
+        window.frameGeometry = window.renderGeometry;
+    });
+  }
 
   connect(window, 'moveResizedChanged', () => {
     const output = getOutput(window);

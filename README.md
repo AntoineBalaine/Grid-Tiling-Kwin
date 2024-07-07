@@ -82,6 +82,7 @@ ln -s <path>/metadata.json
 - script assumes that the amount of desktops does not change. For the best result make sure you have more virtual desktops than you have windows normally. The script can handle more windows but once all desktops and screens are full, all new windows will start as floating instead of tiling until there is space again to tile new windows
 - name matching is performed using the javascript `RegExp` class which is build using the string that the user provides and then the `test` method is used on the window class (application) property (equivalent JS code `RegExp(config).test(window.resourceName)`). You can find the value for these properties on a window by opening the Windows Operations Menu (there is a global shortcut for this). For some examples check out the min space section of the configuration interface
 - if you never plan on using multiple screens you could also consider repurposing the KWin shortcuts for moving windows between screens to desktops instead. So you have more flexibility to move windows between the grid of desktops, while sacrificing the shortcuts that allow you to move them between screens
+- if you have trouble with other applications changing the geometry of windows you may try the `force` option
 - logging can be obtained from your system log, for example in wayland using `journalctl _COMM=kwin_wayland`
 
 ---

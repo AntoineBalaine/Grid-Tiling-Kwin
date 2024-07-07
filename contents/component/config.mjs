@@ -16,12 +16,8 @@ function splitTrim(data) {
 
 function parseScreenGrid(rows, columns) {
   const grid = {};
-  for (let i = 0; i < shared.workspace.screens.length; ++i) {
-    grid[shared.workspace.screens[i].name] = [
-      rows[i < rows.length ? i : 0],
-      columns[i < columns.length ? i : 0],
-    ];
-  }
+  for (let i = 0; i < shared.workspace.screens.length; ++i)
+    grid[shared.workspace.screens[i].name] = [rows[i < rows.length ? i : 0], columns[i < columns.length ? i : 0]];
   return grid;
 }
 
@@ -88,6 +84,7 @@ export function load(read) {
 
   config.border = read('border', false);
   config.borderActive = read('borderActive', false);
+  config.force = read('force', false);
 
   config.delay = read('delay', 10);
 
@@ -99,7 +96,7 @@ export function load(read) {
   };
 
   config.minSpace = minSpace(read, [
-    [1, 'systemsettings|inkscape|krita|gimp|kdenlive|Godot|vlc'],
+    [1, 'inkscape|krita|gimp|kdenlive|Godot|vlc'],
     [2, 'code|chrome'],
     [3, ''],
     [4, ''],
