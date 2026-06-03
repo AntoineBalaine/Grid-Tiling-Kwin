@@ -114,7 +114,12 @@ export function load(read) {
 
 export function grid(desktopId, outputName) {
   const d = config.grid.desktop[desktopId];
-  return d ? d[outputName] : config.grid.screen[outputName];
+  const g = d ? d[outputName] : config.grid.screen[outputName];
+  if (g) return g;
+  // workspace.screens may have been empty at load time — populate lazily
+  const fallback = Object.values(config.grid.screen)[0] || [2, 2];
+  config.grid.screen[outputName] = fallback;
+  return fallback;
 }
 
 export function clampDivider(value) {
