@@ -45,6 +45,23 @@ export function Desktop() {
       if (n === window.outputName) c = i;
       if (n === window.output.name) t = i;
     }
+
+    // c is undefined when the old output was removed (monitor unplugged) — move directly
+    if (c === undefined) {
+      const targetScreen = shared.workspace.screens[t];
+      if (targetScreen) {
+        const n = targetScreen.name;
+        if (!outputs.hasOwnProperty(n)) outputs[n] = Output();
+        const w = Object.assign({}, window);
+        if (outputs[n].add(window, grid(window.desktopId, n))) {
+          remove(w);
+          window.outputName = n;
+          return window;
+        }
+      }
+      return window;
+    }
+
     const direction = Math.sign(t - c);
     if (direction) {
       const max = shared.workspace.screens.length;
@@ -72,12 +89,8 @@ export function Desktop() {
   // provide at least desktopId in overwrite
   function render(desktop) {
     for (const [name, output] of Object.entries(outputs)) {
-      output.render(
-        area(
-          desktop,
-          shared.workspace.screens.find((s) => s.name === name)
-        )
-      );
+      const screen = shared.workspace.screens.find((s) => s.name === name);
+      if (screen) output.render(area(desktop, screen));
     }
   }
 
